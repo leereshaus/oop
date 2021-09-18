@@ -52,6 +52,66 @@ public:
         }
         return 0;
     }
+    Rectangle crossing(Rectangle z){
+        double a1, b1, a2, b2;
+        if (((x1 <= z.x1 <= x2) || (y1<= z.y1 <= y2)) && ((z.x1 <= x1 <= z.x2) || (z.y1 <= y1 <= z.y2))){
+            if (x1 <= z.x1 <= x2){
+                a1 = z.x1;
+                if (z.y1 <= y1 <= z.y2){
+                    b1 = y1;
+                }
+                else if (y1<= z.y1 <= y2){
+                    b1 = z.y1;
+                }
+                if (z.x1 <= x2 <= z.x2){
+                    a2 = x2;
+                }
+                else if (x1 <= z.x2 <= x2){
+                    a2 = z.x2;
+                }
+                if (y1<= z.y2 <= y2){
+                    b2 = z.y2;
+                }
+                else if (z.y1<= y2 <= z.y2){
+                    b2 = y2;
+                }
+            }
+            else if(z.x1 <= x1 <= z.x2){
+                a1 = x1;
+                if (z.y1 <= y1 <= z.y2){
+                    b1 = y1;
+                }
+                else if (y1<= z.y1 <= y2){
+                    b1 = z.y1;
+                }
+                if (z.x1 <= x2 <= z.x2){
+                    a2 = x2;
+                }
+                else if (x1 <= z.x2 <= x2){
+                    a2 = z.x2;
+                }
+                if (y1<= z.y2 <= y2){
+                    b2 = z.y2;
+                }
+                else if (z.y1<= y2 <= z.y2){
+                    b2 = y2;
+                }
+            }
+        }
+        else if((z.x1 <= x1 <= z.x2) && (z.y1 <= y1 <= z.y2)){
+            a1 = x1;
+            b1 = y1;
+            a2 = x2;
+            b2 = y2;
+        }
+        else if((x1 <= z.x1 <= x2) && (y1 <= z.y1 <= y2)){
+            a1 = z.x1;
+            b1 = z.y1;
+            a2 = z.x2;
+            b2 = z.y2;
+        }
+        return Rectangle (a1, b1, a2, b2);
+    }
     Rectangle unite(Rectangle z){
         double a1, b1, a2, b2;
         a1 = min(min(x1, x2), min(z.x1, z.x2));
@@ -135,6 +195,19 @@ int main(){
                 std::cout << "Перметры равны" << std::endl;
             }
             std::cout << "\n";
+        }
+        else if (n == 8){
+            std::cout << "Первый прямоугольник имеет координаты двух противоположных углов: " << "\t";
+            r.print();
+            std::cout << "\n";
+            Rectangle s = create();
+            std::cout << "Второй прямоугольник имеет координаты двух противоположных углов: " << "\t";
+            s.print();
+            Rectangle p = r.crossing(s);
+            std::cout << "Прямоугольник, составленный путем пересения двух других, имеет координаты двух противоположных углов: " << "\t";
+            p.print();
+            std::cout << "\n";
+
         }
         else if (n == 9){
             std::cout << "Первый прямоугольник имеет координаты двух противоположных углов: " << "\t";
