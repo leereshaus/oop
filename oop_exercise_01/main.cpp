@@ -53,63 +53,51 @@ public:
         return 0;
     }
     Rectangle crossing(Rectangle z){
+        int n = 0;
         double a1, b1, a2, b2;
-        if (((x1 <= z.x1 <= x2) || (y1<= z.y1 <= y2)) && ((z.x1 <= x1 <= z.x2) || (z.y1 <= y1 <= z.y2))){
-            if (x1 <= z.x1 <= x2){
-                a1 = z.x1;
-                if (z.y1 <= y1 <= z.y2){
-                    b1 = y1;
+        if ((max(x1, x2) > min(z.x1, z.x2)) || (max(z.x1, z.x2) > min(x1, x2))){
+            if ((max(y1, y2) > min(z.y1, z.y2)) || (max(z.y1, z.y2) > min(y1, y2))){
+                if ((max(x1, x2) > min(z.x1, z.x2))){
+                    a1 = min(z.x1, z.x2);
+                    if ((max(x1, x2) > max(z.x1, z.x2))){
+                        a2 = max(z.x1, z.x2);
+                    }
+                    else if ((max(x1, x2) < max(z.x1, z.x2))){
+                        a2 = max(x1, x2);
+                    }
                 }
-                else if (y1<= z.y1 <= y2){
-                    b1 = z.y1;
+                else if ((max(z.x1, z.x2) > min(x1, x2))){
+                    a1 = min(x1, x2);
+                    if ((max(z.x1, z.x2) > max(x1, x2))){
+                        a2 = max(x1, x2);
+                    }
+                    else if ((max(z.x1, z.x2) < max(x1, x2))){
+                        a2 = max(z.x1, z.x2);
+                    }
                 }
-                if (z.x1 <= x2 <= z.x2){
-                    a2 = x2;
+                if (max(y1, y2) > min(z.y1, z.y2)){
+                    b1 = min(z.y1, z.y2);
+                    if ((max(y1, y2) > max(z.y1, z.y2))){
+                        b2 = max(z.y1, z.y2);
+                    }
+                    else if ((max(y1, y2) < max(z.y1, z.y2))){
+                        b2 = max(y1, y2);
+                    }
                 }
-                else if (x1 <= z.x2 <= x2){
-                    a2 = z.x2;
+                else if ((max(z.y1, z.y2) > min(y1, y2))){
+                    b1 = min(y1, y2);
+                    if ((max(z.y1, z.y2) > max(y1, y2))){
+                        b2 = max(y1, y2);
+                    }
+                    else if ((max(z.y1, z.y2) < max(y1, y2))){
+                        b2 = max(z.y1, z.y2);
+                    }
                 }
-                if (y1<= z.y2 <= y2){
-                    b2 = z.y2;
-                }
-                else if (z.y1<= y2 <= z.y2){
-                    b2 = y2;
-                }
+                n = 1;
             }
-            else if(z.x1 <= x1 <= z.x2){
-                a1 = x1;
-                if (z.y1 <= y1 <= z.y2){
-                    b1 = y1;
-                }
-                else if (y1<= z.y1 <= y2){
-                    b1 = z.y1;
-                }
-                if (z.x1 <= x2 <= z.x2){
-                    a2 = x2;
-                }
-                else if (x1 <= z.x2 <= x2){
-                    a2 = z.x2;
-                }
-                if (y1<= z.y2 <= y2){
-                    b2 = z.y2;
-                }
-                else if (z.y1<= y2 <= z.y2){
-                    b2 = y2;
-                }
-            }
+            else {n = 0;}
         }
-        else if((z.x1 <= x1 <= z.x2) && (z.y1 <= y1 <= z.y2)){
-            a1 = x1;
-            b1 = y1;
-            a2 = x2;
-            b2 = y2;
-        }
-        else if((x1 <= z.x1 <= x2) && (y1 <= z.y1 <= y2)){
-            a1 = z.x1;
-            b1 = z.y1;
-            a2 = z.x2;
-            b2 = z.y2;
-        }
+        else {n = 0;}
         return Rectangle (a1, b1, a2, b2);
     }
     Rectangle unite(Rectangle z){
@@ -197,6 +185,7 @@ int main(){
             std::cout << "\n";
         }
         else if (n == 8){
+            if (n = 1) {
             std::cout << "Первый прямоугольник имеет координаты двух противоположных углов: " << "\t";
             r.print();
             std::cout << "\n";
@@ -204,10 +193,12 @@ int main(){
             std::cout << "Второй прямоугольник имеет координаты двух противоположных углов: " << "\t";
             s.print();
             Rectangle p = r.crossing(s);
-            std::cout << "Прямоугольник, составленный путем пересения двух других, имеет координаты двух противоположных углов: " << "\t";
+            std::cout << "Прямоугольник, составленный путем пересечения двух других, имеет координаты двух противоположных углов: " << "\t";
             p.print();
             std::cout << "\n";
-
+            }
+            else {std::cout << "Прямоугольники не пересекаются\n";}
+            std::cout << "\n";
         }
         else if (n == 9){
             std::cout << "Первый прямоугольник имеет координаты двух противоположных углов: " << "\t";
